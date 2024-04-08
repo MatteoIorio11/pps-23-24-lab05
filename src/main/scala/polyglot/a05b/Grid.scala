@@ -26,6 +26,7 @@ class GridImpl(val size: Int, val nBombs: Int) extends Grid:
       if (!this.grid.contains(gridEl => (gridEl.x == possibleBomb.x && gridEl.y == possibleBomb.y && gridEl.bomb == false))) then
         this.grid.concat(Sequence(possibleBomb))
         spawnedBombs = spawnedBombs + 1
-  override def getBombs: Sequence[GridElementImpl] = ???
+  override def getBombs: Sequence[GridElementImpl] =
+    this.grid.filter(grdEl => grdEl.bomb)
 
 
