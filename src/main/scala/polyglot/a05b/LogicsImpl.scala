@@ -12,7 +12,8 @@ import scala.util.Random
 class LogicsImpl(private val size: Int) extends Logics:
   lazy val random: Random = Random()
   private var tickCounter: Int = 0
-  private var initial: Pair[Int, Int] = Pair(random.nextInt(this.size - 2) + 1, random.nextInt(this.size - 2) + 1)
+  private val initial: Pair[Int, Int] = Pair(random.nextInt(this.size - 2) + 1,
+    random.nextInt(this.size - 2) + 1)
 
   override def tick(): Unit =
     this.tickCounter = this.tickCounter + 1
@@ -22,7 +23,12 @@ class LogicsImpl(private val size: Int) extends Logics:
       this.initial.getX + this.tickCounter >= this.size || this.initial.getY + this.tickCounter >= this.size
 
 
-  override def hasElement(x: Int, y: Int): Boolean = false
+  override def hasElement(x: Int, y: Int): Boolean =
+    (x == this.initial.getX && Math.abs(y - this.initial.getY) <= this.tickCounter) ||
+      (y == this.initial.getY && Math.abs(x - this.initial.getX) <= this.tickCounter) ||
+      (x - y == this.initial.getX - this.initial.getY && Math.abs(x - this.initial.getX) <= this.tickCounter) ||
+      (x + y == this.initial.getX + this.initial.getY && Math.abs(x - this.initial.getX) <= this.tickCounter)
+
 
 
 
