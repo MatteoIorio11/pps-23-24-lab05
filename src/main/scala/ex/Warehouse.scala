@@ -50,6 +50,9 @@ case class WarehouseImpl() extends Warehouse:
   override def store(item: Item): Unit =
     this.sequence = this.sequence.concat(Sequence(item))
 
+  override def searchItems(tag: String): Sequence[Item] =
+    this.sequence.filter(item => item.tags.contains(tag))
+
 object Warehouse:
   def apply(): Warehouse = WarehouseImpl()
 
