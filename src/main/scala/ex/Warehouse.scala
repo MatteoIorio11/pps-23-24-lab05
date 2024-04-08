@@ -54,10 +54,9 @@ case class WarehouseImpl() extends Warehouse:
     this.sequence.filter(item => item.tags.contains(tag))
 
   override def retrieve(code: Int): Optional[Item] =
-    val item = this.sequence.find(item => item.code == code)
-    this.sequence.filter(item => item.code != code)
-    item
-  override def remove(item: Item): Unit = ???
+    this.sequence.find(item => item.code == code)
+  override def remove(item: Item): Unit =
+    this.sequence.filter(sItem => sItem.code != item.code)
 object Warehouse:
   def apply(): Warehouse = WarehouseImpl()
 
