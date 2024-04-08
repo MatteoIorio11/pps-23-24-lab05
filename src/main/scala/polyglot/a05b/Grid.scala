@@ -1,6 +1,8 @@
 package polyglot.a05b
 
 import util.GridElementImpl
+import util.Optionals.Optional
+import util.Optionals.Optional.Just
 import util.Sequences.Sequence
 
 import scala.util.Random
@@ -8,6 +10,7 @@ import scala.util.Random
 
 trait Grid:
   def getBombs: Sequence[GridElementImpl]
+  def checkBomb(x: Int, y: Int): Boolean
 
 class GridImpl(val size: Int, val nBombs: Int) extends Grid:
   private var grid: Sequence[GridElementImpl] = Sequence.empty
@@ -26,7 +29,13 @@ class GridImpl(val size: Int, val nBombs: Int) extends Grid:
       if (!this.grid.contains(gridEl => (gridEl.x == possibleBomb.x && gridEl.y == possibleBomb.y && gridEl.bomb == false))) then
         this.grid.concat(Sequence(possibleBomb))
         spawnedBombs = spawnedBombs + 1
+
+  override def checkBomb(x: Int, y: Int): Boolean =
+    val grdEl: Optional[GridElementImpl] = this.grid.find(grdEl => grdEl.x == x && grdEl.y == y)
+    grdEl match
+      case Just(cell) => cell.bomb
   override def getBombs: Sequence[GridElementImpl] =
     this.grid.filter(grdEl => grdEl.bomb)
+
 
 
