@@ -2,6 +2,8 @@ package util
 import Optionals.Optional.*
 import util.Optionals.Optional
 
+import scala.annotation.tailrec
+
 object Sequences: // Essentially, generic linkedlists
   
   enum Sequence[E]:
@@ -47,6 +49,24 @@ object Sequences: // Essentially, generic linkedlists
         case _ => Empty()
 
       def contains(e: A): Boolean = !sequence.find(_ == e).isEmpty
+
+      def count(el: A): Int =
+        @tailrec
+        def _counterTail(s: Sequence[A], el: A, counter: Int): Int = s match
+          case Cons(h, tail) if h == el => _counterTail(tail, el, counter + 1)
+          case Cons(h, t) => _counterTail(t, el, counter)
+          case Nil() => counter
+        val myS = sequence
+        _counterTail(myS, el, 0)
+
+      def size(): Int =
+        @tailrec
+        def _countSize(seq: Sequence[A], counter: Int): Int = seq match
+          case Cons(h, t) => _countSize(t, counter + 1)
+          case Nil() => counter
+        val myS = sequence
+        _countSize(myS, 0)
+
 
       def reverse(): Sequence[A] = sequence match
         case Cons(h, t) => t.reverse().concat(Cons(h, Nil()))
