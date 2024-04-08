@@ -22,7 +22,7 @@ class GridImpl(val size: Int, val nBombs: Int) extends Grid:
     var spawnedBombs = 0
     var random = Random()
     while (spawnedBombs < bombs)
-      val possibleBomb = GridElementImpl(random.nextInt(), random.nextInt(), true)
+      val possibleBomb = GridElementImpl(random.nextInt(size-1), random.nextInt(size-1), true)
       if (!this.grid.contains(gridEl => (gridEl.x == possibleBomb.x && gridEl.y == possibleBomb.y && gridEl.bomb == false))) then
         this.grid.concat(Sequence(possibleBomb))
         spawnedBombs = spawnedBombs + 1
