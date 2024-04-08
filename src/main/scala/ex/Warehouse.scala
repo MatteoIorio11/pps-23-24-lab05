@@ -1,6 +1,7 @@
 package ex
 
 import util.Optionals.Optional
+import util.Sequences
 import util.Sequences.*
 trait Item:
   def code: Int
@@ -44,8 +45,13 @@ trait Warehouse:
   def contains(itemCode: Int): Boolean
 end Warehouse
 
+case class WarehouseImpl() extends Warehouse:
+  var sequence: Sequence[Item] = Sequence.empty
+  override def store(item: Item): Unit =
+    this.sequence = this.sequence.concat(Sequence(item))
+
 object Warehouse:
-  def apply(): Warehouse = ???
+  def apply(): Warehouse = WarehouseImpl()
 
 @main def mainWarehouse(): Unit =
   val warehouse = Warehouse()
