@@ -2,6 +2,8 @@ package ex
 
 import util.Optionals.Optional
 import util.Sequences
+import util.Sequences.Sequence.Nil
+import util.Sequences.Sequence.Cons
 import util.Sequences.*
 trait Item:
   def code: Int
@@ -9,8 +11,15 @@ trait Item:
   def tags: Sequence[String]
 
 object Item:
-  def apply(code: Int, name: String, tags: Sequence[String]): Item = ItemImpl(code, name, tags)
+  def apply(code: Int, name: String, tags: String*): Item =
+    var tagsSequence: Sequence[String] = Nil()
+    for el <- tags do
+      tagsSequence = Cons(el, tagsSequence)
+    tagsSequence = tagsSequence.reverse()
+    ItemImpl(code, name, tagsSequence)
   def unapply(item: Item): Option[(Int, String, Sequence[String])] = Some(item.code, item.name, item.tags)
+
+
 case class ItemImpl(val code: Int, val name: String, val tags: Sequence[String]) extends Item
 /**
  * A warehouse is a place where items are stored.
@@ -67,9 +76,9 @@ object Warehouse:
 @main def mainWarehouse(): Unit =
   val warehouse = Warehouse()
 
-  val dellXps = Item(33, "Dell XPS 15", Sequence("notebook"))
-  val dellInspiron = Item(34, "Dell Inspiron 13", Sequence("notebook"))
-  val xiaomiMoped = Item(35, "Xiaomi S1", Sequence("moped", "mobility"))
+  val dellXps = Item(33, "Dell XPS 15", "notebook")
+  val dellInspiron = Item(34, "Dell Inspiron 13", "notebook")
+  val xiaomiMoped = Item(35, "Xiaomi S1", "moped", "mobility")
 
   println(warehouse.contains(dellXps.code)) // false
   println(warehouse.store(dellXps)) // side effect, add dell xps to the warehouse
