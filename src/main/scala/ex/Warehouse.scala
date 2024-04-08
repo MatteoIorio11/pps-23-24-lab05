@@ -57,6 +57,9 @@ case class WarehouseImpl() extends Warehouse:
     this.sequence.find(item => item.code == code)
   override def remove(item: Item): Unit =
     this.sequence.filter(sItem => sItem.code != item.code)
+
+  override def contains(itemCode: Int): Boolean =
+    this.sequence.find(item => item.code == itemCode).isEmpty
 object Warehouse:
   def apply(): Warehouse = WarehouseImpl()
 
