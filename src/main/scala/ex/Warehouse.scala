@@ -8,8 +8,8 @@ trait Item:
   def tags: Sequence[String]
 
 object Item:
-  def apply(code: Int, name: String, tags: Sequence[String] = Sequence.empty): Item = ???
-
+  def apply(code: Int, name: String, tags: Sequence[String] = Sequence.empty): Item = ItemImpl(code, name, tags)
+case class ItemImpl(val code: Int, val name: String, val tags: Sequence[String]) extends Item
 /**
  * A warehouse is a place where items are stored.
  */
