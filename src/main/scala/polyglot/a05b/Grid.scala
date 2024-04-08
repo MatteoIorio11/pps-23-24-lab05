@@ -1,21 +1,31 @@
 package polyglot.a05b
 
-import util.GridElement
+import util.GridElementImpl
 import util.Sequences.Sequence
+
+import scala.util.Random
 
 
 trait Grid:
-  def spawnBombs(size: Int, bombs: Int): Unit
-  def getBombs: Sequence[GridElement]
+  def getBombs: Sequence[GridElementImpl]
 
 class GridImpl(val size: Int, val nBombs: Int) extends Grid:
-  var grid: Sequence[GridElement] = Sequence.empty
+  private var grid: Sequence[GridElementImpl] = Sequence.empty
+  this.spawnBombs(this.size, this.nBombs)
   this.initializeGrid()
   private def initializeGrid(): Unit =
     (0 until size).foreach(row =>
       (0 to size).foreach(col =>
-        this.grid.concat(Sequence(GridElement(row, col, false)))))
-  override def spawnBombs(size: Int, bombs: Int): Unit = ???
-  override def getBombs: Sequence[GridElement] = ???
+        if !this.grid.contains(grdEl => grdEl.x == row && grdEl.y == col) then
+          this.grid.concat(Sequence(GridElementImpl(row, col, false)))))
+  private def spawnBombs(size: Int, bombs: Int): Unit =
+    var spawnedBombs = 0
+    var random = Random()
+    while (spawnedBombs < bombs)
+      val possibleBomb = GridElementImpl(random.nextInt(), random.nextInt(), true)
+      if (!this.grid.contains(gridEl => (gridEl.x == possibleBomb.x && gridEl.y == possibleBomb.y && gridEl.bomb == false))) then
+        this.grid.concat(Sequence(possibleBomb))
+        spawnedBombs = spawnedBombs + 1
+  override def getBombs: Sequence[GridElementImpl] = ???
 
 
