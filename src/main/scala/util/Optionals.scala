@@ -30,6 +30,12 @@ object Optionals:
       case _ => Empty()
 
 
+    def get(): A = opt match {
+      case Just(el) => el
+      case _ => throw IllegalAccessException("The Optional is empty.")
+    }
+
+
 @main def tryOptionals =
   import Optionals.* // to work with Optionals (to see Optional type)
   import Optional.* // to directly access algorithms
