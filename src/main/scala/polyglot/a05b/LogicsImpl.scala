@@ -9,6 +9,14 @@ class LogicsImpl(private val size: Int) extends Logics:
 
   private val grid: Grid = GridImpl(size, 5)
   private val clickedCells: Sequence[Pair[Int, Int]] = Sequence.empty()
+  private val directions: Sequence[Pair[Int, Int]] = Sequence(
+    Pair(-1, -1),
+    Pair(-1, 0),
+    Pair(-1, 1),
+    Pair(0, -1),
+    Pair(0, 1),
+    Pair(1, 0),
+    Pair(1, 1))
 
   override def tick(): Unit = {}
 
