@@ -66,9 +66,9 @@ object Warehouse:
 @main def mainWarehouse(): Unit =
   val warehouse = Warehouse()
 
-  val dellXps = Item(33, "Dell XPS 15", Sequence("notebook"))
-  val dellInspiron = Item(34, "Dell Inspiron 13", Sequence("notebook"))
-  val xiaomiMoped = Item(35, "Xiaomi S1", Sequence("moped", "mobility"))
+  val dellXps = Item(33, "Dell XPS 15", "notebook")
+  val dellInspiron = Item(34, "Dell Inspiron 13", "notebook")
+  val xiaomiMoped = Item(35, "Xiaomi S1", "moped", "mobility")
 
   println(warehouse.contains(dellXps.code)) // false
   println(warehouse.store(dellXps)) // side effect, add dell xps to the warehouse
