@@ -9,7 +9,8 @@ trait Item:
   def tags: Sequence[String]
 
 object Item:
-  def apply(code: Int, name: String, tags: String*): Item = ItemImpl(code, name, Sequence(tags))
+  def apply(code: Int, name: String, tags: Sequence[String]): Item = ItemImpl(code, name, tags)
+  def unapply(item: Item): Option[(Int, String, Sequence[String])] = Some(item.code, item.name, item.tags)
 case class ItemImpl(val code: Int, val name: String, val tags: Sequence[String]) extends Item
 /**
  * A warehouse is a place where items are stored.
@@ -66,9 +67,9 @@ object Warehouse:
 @main def mainWarehouse(): Unit =
   val warehouse = Warehouse()
 
-  val dellXps = Item(33, "Dell XPS 15", "notebook")
-  val dellInspiron = Item(34, "Dell Inspiron 13", "notebook")
-  val xiaomiMoped = Item(35, "Xiaomi S1", "moped", "mobility")
+  val dellXps = Item(33, "Dell XPS 15", Sequence("notebook"))
+  val dellInspiron = Item(34, "Dell Inspiron 13", Sequence("notebook"))
+  val xiaomiMoped = Item(35, "Xiaomi S1", Sequence("moped", "mobility"))
 
   println(warehouse.contains(dellXps.code)) // false
   println(warehouse.store(dellXps)) // side effect, add dell xps to the warehouse
