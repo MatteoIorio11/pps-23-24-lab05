@@ -59,7 +59,7 @@ case class WarehouseImpl() extends Warehouse:
     this.sequence.filter(sItem => sItem.code != item.code)
 
   override def contains(itemCode: Int): Boolean =
-    this.sequence.find(item => item.code == itemCode).isEmpty
+    !this.sequence.find(item => item.code == itemCode).isEmpty
 object Warehouse:
   def apply(): Warehouse = WarehouseImpl()
 
@@ -70,14 +70,13 @@ object Warehouse:
   val dellInspiron = Item(34, "Dell Inspiron 13", Sequence("notebook"))
   val xiaomiMoped = Item(35, "Xiaomi S1", Sequence("moped", "mobility"))
 
-  warehouse.contains(dellXps.code) // false
-  warehouse.store(dellXps) // side effect, add dell xps to the warehouse
-  warehouse.contains(dellXps.code) // true
+  println(warehouse.contains(dellXps.code)) // false
+  println(warehouse.store(dellXps)) // side effect, add dell xps to the warehouse
+  println(warehouse.contains(dellXps.code)) // true
   warehouse.store(dellInspiron) // side effect, add dell Inspiron to the warehouse
   warehouse.store(xiaomiMoped) // side effect, add xiaomi moped to the warehouse
   warehouse.searchItems("mobility") // List(xiaomiMoped)
   warehouse.searchItems("notebook") // List(dellXps, dell Inspiron)
-  warehouse.retrieve(11) // None
   warehouse.retrieve(dellXps.code) // Some(dellXps)
   warehouse.remove(dellXps) // side effect, remove dell xps from the warehouse
   warehouse.retrieve(dellXps.code) // None
