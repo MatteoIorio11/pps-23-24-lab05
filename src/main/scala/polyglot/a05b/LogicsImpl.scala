@@ -17,7 +17,9 @@ class LogicsImpl(private val size: Int) extends Logics:
   override def tick(): Unit =
     this.tickCounter = this.tickCounter + 1
 
-  override def isOver: Boolean = false
+  override def isOver: Boolean =
+    this.initial.getX - this.tickCounter < 0 || this.initial.getY - this.tickCounter < 0 ||
+      this.initial.getX + this.tickCounter >= this.size || this.initial.getY + this.tickCounter >= this.size
 
 
   override def hasElement(x: Int, y: Int): Boolean = false
