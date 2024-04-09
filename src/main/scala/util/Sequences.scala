@@ -51,13 +51,8 @@ object Sequences: // Essentially, generic linkedlists
       def contains(e: A): Boolean = !sequence.find(_ == e).isEmpty
 
       def count(el: A): Int =
-        @tailrec
-        def _counterTail(s: Sequence[A], el: A, counter: Int): Int = s match
-          case Cons(h, tail) if h == el => _counterTail(tail, el, counter + 1)
-          case Cons(h, t) => _counterTail(t, el, counter)
-          case Nil() => counter
         val myS = sequence
-        _counterTail(myS, el, 0)
+        countFilter(myS, 0)(element => element == el)
 
       def size(): Int =
         val myS = sequence
@@ -66,7 +61,7 @@ object Sequences: // Essentially, generic linkedlists
       @tailrec
       private def countFilter(s: Sequence[A], counter: Int)(predicate: A => Boolean): Int = s match
         case Cons(h, t) if predicate(h) => countFilter(t, counter + 1)(predicate)
-        case Cons(h, t) => counter(t, counter)(predicate)
+        case Cons(h, t) => countFilter(t, counter)(predicate)
         case Nil() => counter
 
 
