@@ -9,7 +9,7 @@ import util.Sequences.*
 trait Item:
   def code: Int
   def name: String
-  def tags: Sequence[String]
+  def tags: Sequence[String] // this would be better with a Set, but I can not use it at the moment.
 
 object Item:
   def apply(code: Int, name: String, tags: String*): Item =
@@ -77,7 +77,7 @@ case class WarehouseImpl() extends Warehouse:
   override def retrieve(code: Int): Optional[Item] =
     this.sequence.find(item => item.code == code)
   override def remove(item: Item): Unit =
-    this.sequence.filter(sItem => sItem.code != item.code)
+    this.sequence = this.sequence.filter(sItem => sItem.code != item.code)
 
   override def contains(itemCode: Int): Boolean =
     !this.sequence.find(item => item.code == itemCode).isEmpty
@@ -95,17 +95,17 @@ object Warehouse:
   println(warehouse.contains(dellXps.code)) // false
   println(warehouse.store(dellXps)) // side effect, add dell xps to the warehouse
   println(warehouse.contains(dellXps.code)) // true
-  warehouse.store(dellInspiron) // side effect, add dell Inspiron to the warehouse
-  warehouse.store(xiaomiMoped) // side effect, add xiaomi moped to the warehouse
-  warehouse.searchItems("mobility") // List(xiaomiMoped)
-  warehouse.searchItems("notebook") // List(dellXps, dell Inspiron)
-  warehouse.retrieve(dellXps.code) // Some(dellXps)
-  warehouse.remove(dellXps) // side effect, remove dell xps from the warehouse
-  warehouse.retrieve(dellXps.code) // None
+  println(warehouse.store(dellInspiron)) // side effect, add dell Inspiron to the warehouse
+  println(warehouse.store(xiaomiMoped)) // side effect, add xiaomi moped to the warehouse
+  println(warehouse.searchItems("mobility")) // List(xiaomiMoped)
+  println(warehouse.searchItems("notebook")) // List(dellXps, dell Inspiron)
+  println(warehouse.retrieve(dellXps.code)) // Some(dellXps)
+  println(warehouse.remove(dellXps)) // side effect, remove dell xps from the warehouse
+  println(warehouse.retrieve(dellXps.code)) // None
   println("--------------------")
 
   items match
-    case sameTag(t) => println(s"$items have same tag $t")
+    case sameTag(t) => println(s"$items have same tag: $t")
     case _ => println(s"$items have different tags")
 
 /** Hints:
