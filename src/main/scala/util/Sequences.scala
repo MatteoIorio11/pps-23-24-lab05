@@ -66,6 +66,7 @@ object Sequences: // Essentially, generic linkedlists
       @tailrec
       private def countFilter(s: Sequence[A], counter: Int)(predicate: A => Boolean): Int = s match
         case Cons(h, t) if predicate(h) => countFilter(t, counter + 1)(predicate)
+        case Cons(h, t) => counter(t, counter)(predicate)
         case Nil() => counter
 
 
