@@ -60,12 +60,14 @@ object Sequences: // Essentially, generic linkedlists
         _counterTail(myS, el, 0)
 
       def size(): Int =
-        @tailrec
-        def _countSize(seq: Sequence[A], counter: Int): Int = seq match
-          case Cons(h, t) => _countSize(t, counter + 1)
-          case Nil() => counter
         val myS = sequence
-        _countSize(myS, 0)
+        countFilter(myS, 0)(el => true)
+
+      @tailrec
+      private def countFilter(s: Sequence[A], counter: Int)(predicate: A => Boolean): Int = s match
+        case Cons(h, t) if predicate(h) => countFilter(t, counter + 1)(predicate)
+        case Nil() => counter
+
 
 
       def reverse(): Sequence[A] = sequence match
