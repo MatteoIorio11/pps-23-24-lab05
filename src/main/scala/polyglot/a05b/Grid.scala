@@ -31,8 +31,7 @@ class GridImpl(val size: Int, val nBombs: Int) extends Grid:
 
   override def checkBomb(x: Int, y: Int): Boolean =
     val grdEl: Optional[GridElementImpl] = this.grid.find(grdEl => grdEl.x == x && grdEl.y == y)
-    grdEl match
-      case Just(cell) => cell.bomb
+    grdEl.get().bomb
   override def getBombs: Sequence[GridElementImpl] =
     this.grid.filter(grdEl => grdEl.bomb)
 
