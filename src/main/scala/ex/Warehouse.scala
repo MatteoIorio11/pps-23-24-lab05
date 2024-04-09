@@ -1,6 +1,5 @@
 package ex
 
-import polyglot.OptionToOptional
 import util.Optionals.Optional
 import util.Sequences
 import util.Sequences.Sequence.Nil
