@@ -13,19 +13,18 @@ trait SecondDegreePolynomial:
 
 case class SecondDegreePolynomialImpl(val secondDegree: Double, val firstDegree: Double, val constant: Double) extends SecondDegreePolynomial:
   override def -(polynomial: SecondDegreePolynomial): SecondDegreePolynomial =
-    SecondDegreePolynomialImpl(this.secondDegree - polynomial.secondDegree,
-      this.firstDegree - polynomial.firstDegree,
-      this.constant - polynomial.constant)
+    SecondDegreePolynomial.createSecondDegreeFromOperation(this, polynomial)((x1, x2) => x1 - x2)
+
 
   override def +(polynomial: SecondDegreePolynomial): SecondDegreePolynomial =
-    SecondDegreePolynomialImpl(this.secondDegree + polynomial.secondDegree,
-      this.firstDegree + polynomial.firstDegree,
-      this.constant + polynomial.constant)
-
-
+    SecondDegreePolynomial.createSecondDegreeFromOperation(this, polynomial)((x1, x2) => x1 + x2)
 
 object SecondDegreePolynomial:
   def apply(secondDegree: Double, firstDegree: Double, constant: Double): SecondDegreePolynomial = SecondDegreePolynomialImpl(secondDegree, firstDegree, constant)
+  def createSecondDegreeFromOperation(pl1: SecondDegreePolynomial, pl2: SecondDegreePolynomial)(f: (Double, Double) => Double): SecondDegreePolynomial =
+    SecondDegreePolynomialImpl(f(pl1.secondDegree, pl2.secondDegree),
+      f(pl1.firstDegree, pl2.firstDegree),
+      f(pl1.constant, pl2.constant))
 
 @main def checkComplex(): Unit =
   val simplePolynomial = SecondDegreePolynomial(1.0, 0, 3)
